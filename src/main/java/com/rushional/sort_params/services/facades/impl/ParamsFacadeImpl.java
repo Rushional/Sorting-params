@@ -1,6 +1,8 @@
 package com.rushional.sort_params.services.facades.impl;
 
+import com.rushional.sort_params.dtos.OperationResponseDto;
 import com.rushional.sort_params.dtos.OperationResultDto;
+import com.rushional.sort_params.dtos.ParamsHashDto;
 import com.rushional.sort_params.enums.OperationStatus;
 import com.rushional.sort_params.exceptions.InternalErrorException;
 import com.rushional.sort_params.services.EncodingService;
@@ -10,6 +12,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -21,7 +25,7 @@ public class ParamsFacadeImpl implements ParamsFacade {
     private final EncodingService encodingService;
 
     @Override
-    public OperationResultDto paramsMapToHashedString(Map<String, String> paramsMap) throws InternalErrorException {
+    public OperationResponseDto paramsMapToHashedString(Map<String, String> paramsMap) throws InternalErrorException {
         String sortedParamsString = paramsService.paramsMapToString(paramsMap);
         String hashedString;
         try {
@@ -30,9 +34,11 @@ public class ParamsFacadeImpl implements ParamsFacade {
             log.error("Hashing failed", e);
             throw new InternalErrorException("Hashing failed");
         }
-        return OperationResultDto.builder()
+        List<OperationResultDto> resultsList = new ArrayList<>();
+        resultsList.add(ParamsHashDto.builder().signature(hashedString).build());
+        return OperationResponseDto.builder()
                 .operationStatus(OperationStatus.SUCCESS.toString())
-                .hashedSortedParams(hashedString)
+                .resultsList(resultsList)
                 .build();
     }
 }

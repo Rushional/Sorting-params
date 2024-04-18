@@ -1,6 +1,6 @@
 package com.rushional.sort_params.controllers;
 
-import com.rushional.sort_params.dtos.OperationResultDto;
+import com.rushional.sort_params.dtos.OperationResponseDto;
 import com.rushional.sort_params.exceptions.InternalErrorException;
 import com.rushional.sort_params.services.facades.ParamsFacade;
 import lombok.AllArgsConstructor;
@@ -19,8 +19,8 @@ public class ParamsController {
 
     @GetMapping("/params/{operationId}")
 //    TODO: remove exception from signature, make proper exception handling
-    public OperationResultDto sortParams(@PathVariable("operationId") Long operationId,
-                                         @RequestParam Map<String,String> allRequestParams)
+    public OperationResponseDto sortParams(@PathVariable("operationId") Long operationId,
+                                           @RequestParam Map<String,String> allRequestParams)
             throws InternalErrorException {
 //        TODO: remove this
         System.out.println(operationId);

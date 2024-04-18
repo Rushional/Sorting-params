@@ -1,11 +1,4 @@
 package com.rushional.sort_params.dtos;
 
-import lombok.Builder;
-import lombok.Data;
-
-@Data
-@Builder
-public class OperationResultDto {
-    private String operationStatus;
-    private String hashedSortedParams;
+public abstract class OperationResultDto {
 }
