@@ -15,10 +15,4 @@ public class ParamsServiceImpl implements ParamsService {
                 .map(entry -> entry.getKey() + "=" + entry.getValue())
                 .collect(Collectors.joining("&"));
     }
-
-    @Override
-    public String hashParamsString(String paramsString) {
-//        TODO: add Hmac SHA256 hashing
-        return paramsString;
-    }
 }
