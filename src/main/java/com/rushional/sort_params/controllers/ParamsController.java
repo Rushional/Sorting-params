@@ -5,6 +5,7 @@ import com.rushional.sort_params.exceptions.InternalErrorException;
 import com.rushional.sort_params.services.facades.ParamsFacade;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,9 +17,13 @@ public class ParamsController {
 
     private final ParamsFacade paramsFacade;
 
-    @GetMapping("/params")
+    @GetMapping("/params/{operationId}")
 //    TODO: remove exception from signature, make proper exception handling
-    public OperationResultDto sortParams(@RequestParam Map<String,String> allRequestParams) throws InternalErrorException {
+    public OperationResultDto sortParams(@PathVariable("operationId") Long operationId,
+                                         @RequestParam Map<String,String> allRequestParams)
+            throws InternalErrorException {
+//        TODO: remove this
+        System.out.println(operationId);
         return paramsFacade.paramsMapToHashedString(allRequestParams);
     }
 }

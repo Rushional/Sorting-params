@@ -34,7 +34,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private boolean requiresHeaderAuthentication(HttpServletRequest request) {
-        return "/params".equals(request.getRequestURI());
+        return request.getRequestURI().startsWith("/params");
     }
 
     private boolean isValidToken(String token) {
