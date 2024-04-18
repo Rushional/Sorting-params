@@ -1,5 +1,7 @@
 package com.rushional.sort_params.security;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -9,7 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@RequiredArgsConstructor
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
+
+    private final Environment environment;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -32,7 +38,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private boolean isValidToken(String token) {
-        // TODO: use env var here
-        return "valid_token_value".equals(token);
+        String paramsHashingHeaderToken = environment.getProperty("constants.params-hashing-header-token");
+        return paramsHashingHeaderToken != null && paramsHashingHeaderToken.equals(token);
     }
 }
