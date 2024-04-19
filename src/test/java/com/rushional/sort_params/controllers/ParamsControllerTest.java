@@ -39,4 +39,15 @@ class ParamsControllerTest {
                 .andExpect(jsonPath("$.result[0].signature")
                         .value("cc4db159524f610573c3840c8008bf43de6f40b73954ea68078ce87a8616dc0c"));
     }
+
+    @Test
+    void sortParamsWithNoParamsSucceeds() throws Exception {
+        mockMvc.perform(get(PARAMS_PATH + "/" + sortParamsOperationNumber)
+                        .header("Token", tokenHeader))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("success"))
+                .andExpect(jsonPath("$.result[*].signature").exists())
+                .andExpect(jsonPath("$.result[0].signature")
+                        .value("862a85f36956adcc5f77bce5eee6709e483ca84ed6a879c6b2f474982424b773"));
+    }
 }
