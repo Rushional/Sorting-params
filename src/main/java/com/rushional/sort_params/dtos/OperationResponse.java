@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class OperationResponseDto {
+public class OperationResponse {
     @JsonProperty("status")
     private String operationStatus;
     @JsonProperty("result")
