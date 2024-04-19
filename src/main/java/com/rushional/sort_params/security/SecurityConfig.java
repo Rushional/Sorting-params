@@ -16,7 +16,9 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.addFilterBefore(new TokenAuthenticationFilter(environment), BasicAuthenticationFilter.class);
+        http
+                .csrf().disable()
+                .addFilterBefore(new TokenAuthenticationFilter(environment), BasicAuthenticationFilter.class);
         return http.build();
     }
 }
