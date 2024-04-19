@@ -1,10 +1,12 @@
 package com.rushional.sort_params.security;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -13,10 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-@RequiredArgsConstructor
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
-    private final Environment environment;
+    @Autowired
+    private Environment environment;
+
+    @Autowired
+    @Qualifier("handlerExceptionResolver")
+    private HandlerExceptionResolver resolver;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -28,7 +34,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         String token = request.getHeader("Token");
         if (token == null || !isValidToken(token)) {
-            response.setStatus(HttpStatus.FORBIDDEN.value());
+            resolver.resolveException(request, response, null, new BadCredentialsException("Wrong or missing header"));
             return;
         }
 
