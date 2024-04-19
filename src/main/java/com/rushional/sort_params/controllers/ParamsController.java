@@ -22,8 +22,6 @@ public class ParamsController {
     public OperationResponseDto sortParams(@PathVariable("operationId") Long operationId,
                                            @RequestParam Map<String,String> allRequestParams)
             throws InternalErrorException {
-//        TODO: remove this
-        System.out.println(operationId);
         return paramsFacade.paramsMapToHashedString(allRequestParams);
     }
 }

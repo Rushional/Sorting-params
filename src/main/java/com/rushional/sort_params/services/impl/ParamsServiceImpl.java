@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class ParamsServiceImpl implements ParamsService {
+
     @Override
     public String paramsMapToString(Map<String, String> paramsMap) {
         return paramsMap.entrySet().stream()
