@@ -6,5 +6,5 @@ import java.security.NoSuchAlgorithmException;
 
 public interface EncodingService {
 
-    String hashParamsString(String paramsString) throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException;
+    String hashString(String paramsString, String secretKey) throws InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException;
 }

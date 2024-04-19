@@ -9,7 +9,9 @@ import com.rushional.sort_params.services.EncodingService;
 import com.rushional.sort_params.services.ParamsService;
 import com.rushional.sort_params.services.facades.ParamsFacade;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,18 +20,21 @@ import java.util.Map;
 
 @Service
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ParamsFacadeImpl implements ParamsFacade {
 
     private final ParamsService paramsService;
     private final EncodingService encodingService;
+
+    @Value("${constants.hashing-secret-key}")
+    private String hashingSecretKey;
 
     @Override
     public OperationResponseDto paramsMapToHashedString(Map<String, String> paramsMap) throws InternalErrorException {
         String sortedParamsString = paramsService.paramsMapToString(paramsMap);
         String hashedString;
         try {
-            hashedString = encodingService.hashParamsString(sortedParamsString);
+            hashedString = encodingService.hashString(sortedParamsString, hashingSecretKey);
         } catch (Exception e) {
             log.error("Hashing failed", e);
             throw new InternalErrorException("Hashing failed");
